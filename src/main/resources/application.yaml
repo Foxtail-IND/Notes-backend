@@ -1,11 +1,14 @@
 spring:
+  config:
+    import:
+    - optional:file:.env[.properties]
   security:
     oauth2:
       client:
         registration:
           google:
-            client-id: 167453886120-i5i69pd4v8a332uurjdjrrilooi9mith.apps.googleusercontent.com
-            client-secret: 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
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
             scope:
               - email
               - profile
