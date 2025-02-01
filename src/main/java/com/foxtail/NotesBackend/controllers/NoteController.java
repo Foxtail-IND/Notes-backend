@@ -1,7 +1,7 @@
 package com.foxtail.NotesBackend.controllers;
 
 import com.foxtail.NotesBackend.models.Note;
-import com.foxtail.NotesBackend.models.User;
+import com.foxtail.NotesBackend.models.Users;
 import com.foxtail.NotesBackend.repositories.NoteRepository;
 import com.foxtail.NotesBackend.repositories.UserRepository;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +25,7 @@ public class NoteController {
     // Create a note
     @PostMapping("/create/{userId}")
     public ResponseEntity<Note> createNote(@PathVariable Long userId, @RequestBody Note noteRequest) {
-        Optional<User> user = userRepository.findById(userId);
+        Optional<Users> user = userRepository.findById(userId);
         if (user.isPresent()) {
             noteRequest.setUser(user.get());
             Note savedNote = noteRepository.save(noteRequest);
@@ -38,7 +38,7 @@ public class NoteController {
     // Get all notes for a user
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<Note>> getAllNotesForUser(@PathVariable Long userId) {
-        Optional<User> user = userRepository.findById(userId);
+        Optional<Users> user = userRepository.findById(userId);
         return user.map(value -> ResponseEntity.ok(noteRepository.findByUser(value)))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }

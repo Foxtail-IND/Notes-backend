@@ -23,7 +23,7 @@ public class Note {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private Users user;
 
     private String title;
 
