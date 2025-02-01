@@ -7,11 +7,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.security.Principal;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("api/user")
 public class UserController {
     
-    @GetMapping
-    public Principal user(Principal principal) {
-        return principal;  // Returns authenticated user details
-    }
+
 }
