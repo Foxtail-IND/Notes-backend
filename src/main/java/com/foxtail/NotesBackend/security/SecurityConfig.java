@@ -1,4 +1,5 @@
 package com.foxtail.NotesBackend.security;
+import com.foxtail.NotesBackend.services.CustomOAuth2UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -13,25 +14,23 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http , CustomOAuth2UserService customOAuth2UserService) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)  // Disable CSRF if using JWT or API-based authentication
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/auth", "/login").permitAll()  // Public routes
+                        .requestMatchers("/").permitAll()  // Public routes
                         .anyRequest().authenticated()  // All other requests need authentication
                 )
-                .oauth2Login(oauth2 -> oauth2  // Enable OAuth2 login
-                        .defaultSuccessUrl("/home", true)  // Redirect after successful login
+                .oauth2Login(oauth2 -> oauth2
+                        .userInfoEndpoint(userInfo -> userInfo
+                                .userService(customOAuth2UserService) // Use custom OAuth service
+                        )// Enable OAuth2 login
+                        .defaultSuccessUrl("http://localhost:3000/home", true)  // Redirect after successful login
                 )
                 .logout(logout -> logout
-                        .logoutSuccessUrl("/login")  // Redirect after logout
+                        .logoutSuccessUrl("/")  // Redirect after logout
                         .invalidateHttpSession(true)
                         .deleteCookies("JSESSIONID")  // Clear session cookies
-                )
-                .exceptionHandling(ex -> ex
-                        .authenticationEntryPoint((request, response, authException) ->
-                                response.sendError(401, "Unauthorized")
-                        )
                 );
 
         return http.build();

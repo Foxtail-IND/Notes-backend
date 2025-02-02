@@ -21,6 +21,7 @@ public class Users {
     private String email;
 
     private String name;
+    private String imageUrl;
 
     private String provider;  // Example: GOOGLE, GITHUB
     private String providerId; // OAuth Provider ID
