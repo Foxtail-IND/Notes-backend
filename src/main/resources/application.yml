@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: sec
+    jwtSecret: mySecretKey123912738aopsgjnspkmndfsopkvajoirjg94gf2opfng2moknm
+    jwtExpirationMs: 172800000
+  datasource:
+    url: jdbc:postgresql://localhost:5433/secDb
+    username: postgres
+    password: admin
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+# Uncomment the following line to enable DEBUG logging for Spring Security
+logging:
+  level:
+    org:
+      springframework:
+        :security: DEBUG
+        :web : DEBUG
+
