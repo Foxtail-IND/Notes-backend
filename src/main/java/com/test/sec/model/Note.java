@@ -13,7 +13,7 @@ public class Note {
     @GeneratedValue(strategy = GenerationType   .IDENTITY)
     private Long id;
 
-    @Lob
+    @Column(columnDefinition = "TEXT")
     private String content;
 
     private String ownerUsername;

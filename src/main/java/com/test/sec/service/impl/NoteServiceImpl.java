@@ -2,6 +2,7 @@ package com.test.sec.service.impl;
 
 import com.test.sec.model.Note;
 import com.test.sec.repository.NoteRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.test.sec.service.NoteService;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ public class NoteServiceImpl implements NoteService {
     private NoteRepository noteRepository;
 
     @Override
+    @Transactional
     public Note createNoteForUser(String username, String content) {
         Note note = new Note();
         note.setContent(content);
