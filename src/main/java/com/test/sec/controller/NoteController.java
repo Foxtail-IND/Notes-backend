@@ -1,5 +1,6 @@
 package com.test.sec.controller;
 
+import com.test.sec.dto.NoteDTO;
 import com.test.sec.model.Note;
 import com.test.sec.service.NoteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +19,12 @@ public class NoteController {
     private NoteService noteService;
 
     @PostMapping
-    public Note createNote(@RequestBody String content,
+    public Note createNote(@RequestBody NoteDTO noteDTO,
                            @AuthenticationPrincipal UserDetails userDetails) {
         String username = userDetails.getUsername();
         System.out.println("USER DETAILS: " + username);
-        return noteService.createNoteForUser(username, content);
+        System.out.println("Content: " + noteDTO.getContent() + " Title: " + noteDTO.getTitle());
+        return noteService.createNoteForUser(username, noteDTO.getContent(), noteDTO.getTitle());
     }
 
     @GetMapping
@@ -41,10 +43,10 @@ public class NoteController {
 
     @PutMapping("/{noteId}")
     public Note updateNote(@PathVariable Long noteId,
-                           @RequestBody String content,
+                           @RequestBody NoteDTO noteDTO,
                            @AuthenticationPrincipal UserDetails userDetails) {
         String username = userDetails.getUsername();
-        return noteService.updateNoteForUser(noteId, content, username);
+        return noteService.updateNoteForUser(noteId, noteDTO.getContent(), noteDTO.getTitle(), username);
     }
 
     @DeleteMapping("/{noteId}")

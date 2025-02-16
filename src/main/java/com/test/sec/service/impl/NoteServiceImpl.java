@@ -18,19 +18,21 @@ public class NoteServiceImpl implements NoteService {
 
     @Override
     @Transactional
-    public Note createNoteForUser(String username, String content) {
+    public Note createNoteForUser(String username, String content ,String title) {
         Note note = new Note();
         note.setContent(content);
+        note.setTitle(title);
         note.setOwnerUsername(username);
         Note savedNote = noteRepository.save(note);
         return savedNote;
     }
 
     @Override
-    public Note updateNoteForUser(Long noteId, String content, String username) {
+    public Note updateNoteForUser(Long noteId, String content, String title, String username) {
         Note note = noteRepository.findById(noteId).orElseThrow(()
                 -> new RuntimeException("Note not found"));
         note.setContent(content);
+        note.setContent(title);
         Note updatedNote = noteRepository.save(note);
         return updatedNote;
     }
