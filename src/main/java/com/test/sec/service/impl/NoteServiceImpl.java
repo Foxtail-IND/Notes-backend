@@ -8,6 +8,7 @@ import com.test.sec.service.NoteService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class NoteServiceImpl implements NoteService {
@@ -44,5 +45,12 @@ public class NoteServiceImpl implements NoteService {
         List<Note> personalNotes = noteRepository
                 .findByOwnerUsername(username);
         return personalNotes;
+    }
+
+    @Override
+    public Note getNoteById(Long noteId) {
+        Note note = noteRepository.findById(noteId).orElseThrow(()
+                -> new RuntimeException("Note not found"));
+        return note;
     }
 }

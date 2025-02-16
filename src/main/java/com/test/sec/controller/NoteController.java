@@ -3,6 +3,8 @@ package com.test.sec.controller;
 import com.test.sec.model.Note;
 import com.test.sec.service.NoteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
@@ -11,11 +13,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/notes")
-@CrossOrigin(
-        origins = "http://localhost:3000",
-        maxAge = 3600,
-        allowCredentials = "true"
-)
 public class NoteController {
     @Autowired
     private NoteService noteService;
@@ -33,6 +30,13 @@ public class NoteController {
         String username = userDetails.getUsername();
         System.out.println("USER DETAILS: " + username);
         return noteService.getNotesForUser(username);
+    }
+
+    @GetMapping("/{noteId}")
+    public ResponseEntity<Note> getNoteById(@PathVariable Long noteId){
+        System.out.println(noteId);
+        Note note = noteService.getNoteById(noteId);
+        return new ResponseEntity<>(note , HttpStatus.OK);
     }
 
     @PutMapping("/{noteId}")
